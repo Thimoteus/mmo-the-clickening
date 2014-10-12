@@ -1,0 +1,49 @@
+// Let's get our STYLES ON!
+
+@bar-bg: #252525;
+@bar-color: #d8d8d8;
+
+html, body {
+	padding: 0;
+	margin: 0;
+}
+
+#top-bar {
+	height: 26px;
+	background: @bar-bg;
+	font-size: .8em;
+	a {
+		color: @bar-color;
+		text-decoration: none;
+		&:visited {color: @bar-color;}
+	}
+	ul {
+		list-style-type: none;
+		margin: 0;
+		padding: 0;
+	}
+	li {
+		float: left;
+		margin-left: 5px;
+	}
+	#login-buttons {float: right;}
+	.login-display-name {color: @bar-color;}
+}
+
+#sidebar {
+	width: 200px;
+	min-height: 400px;
+	float: left;
+}
+
+#clicker-ui {
+	float: left;
+	min-height: 400px;
+	float: left;
+}
+
+#bottom-bar {
+	height: 100px;
+	width: 100%;
+	float: left;
+}

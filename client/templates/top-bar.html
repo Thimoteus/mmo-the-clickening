@@ -1,0 +1,11 @@
+<template name="TopBar">
+   <nav id="top-bar">
+      <ul>
+         <li><a href="{{pathFor 'Clicker'}}">home</a></li>
+         <li><a href="{{pathFor 'Upgrades'}}">upgrades</a></li>
+         <li><a href="{{pathFor 'Settings'}}">settings</a></li>
+         <li><a href="{{pathFor 'Export'}}">import/export game</a></li>
+      </ul>
+      {{> loginButtons}}
+   </nav>
+</template>

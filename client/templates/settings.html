@@ -1,0 +1,57 @@
+<template name="Settings">
+{{#if currentUser}}
+   <div id="settings">
+      <h1>Settings and Character Info</h1>
+      <div id="current-char-info">
+         Currently logged in as: finish this
+         <button class="logout">logout</button>
+      </div>
+      <div id="char-info">
+         {{#each characters}}
+            {{> CharInfo}}
+         {{/each}}
+      </div>
+      {{> CharCreator}}
+   </div>
+{{else}}
+You aren't logged in!
+{{/if}}
+</template>
+
+<template name="CharCreator">
+   <h2>Create a new character</h2>
+   <form id="char-creator">
+      <div>
+         Name: <input type="text" class="char-name-input">
+      </div>
+      <div>
+         Class:
+         <select name="char-class-selector" id="char-class-selector">
+            <option value="none" class="default" selected>select a class</option>
+            <option value="warlock">Warlock</option>
+            <option value="paladin">Paladin</option>
+            <option value="assassin">Assassin</option>
+            <option value="druid">Druid</option>
+         </select>
+      </div>
+      <input type="submit" value="submit">
+   </form>
+</template>
+
+<template name="CharInfo">
+   <h2>{{name}}</h2>
+   <span>Class: {{class}}</span>
+   <button class="delete">delete</button>
+</template>
+
+<template name="CharChooser">
+   <div id="char-chooser">
+   <h1>Choose a character</h1>
+   {{#each characters}}
+   <div>
+      <a href="#char-chooser">{{name}}, level {{level}} {{class}}</a>
+   </div>
+   {{/each}}
+   <button>OK</button>
+   </div>
+</template>

@@ -1,0 +1,51 @@
+<head>
+   <title>mmo: the clickening</title>
+   <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/normalize/3.0.1/normalize.min.css">
+</head>
+<body>
+   {{> TopBar}}
+</body>
+
+<template name="Main">
+   {{> yield}}
+</template>
+
+<template name="Clicker">
+   {{#if currentUser}}
+      {{#if userHasChar}}
+         {{#if currentChar}}
+            {{> ClickerUI}}
+         {{else}}
+            {{> CharChooser}}
+         {{/if}}
+      {{else}}
+         {{> CharCreator}}
+      {{/if}}
+   {{else}}
+      You are not logged in!
+   {{/if}}
+</template>
+
+<template name="ClickerUI">
+   <div id="sidebar">
+      {{> Sidebar}}
+   </div>
+   <div id="clicker-ui">
+      <button id="clicker">Click me!</button>
+   </div>
+   <div id="bottom-bar">
+      {{> BottomBar}}
+   </div>
+</template>
+
+<template name="Sidebar">
+   {{#with char}}
+      <strong>{{name}}</strong>
+      <div>{{classIcon}}</div>
+      <div>{{hp}}</div>
+   {{/with}}
+</template>
+
+<template name="BottomBar">
+      nothing here yet, maybe hp?
+</template>

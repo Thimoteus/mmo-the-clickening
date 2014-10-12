@@ -1,2 +1,3 @@
 # ignore .meteor folder
 .meteor
+settings.json
