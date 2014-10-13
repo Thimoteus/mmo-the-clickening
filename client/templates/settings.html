@@ -3,15 +3,25 @@
    <div id="settings">
       <h1>Settings and Character Info</h1>
       <div id="current-char-info">
-         Currently logged in as: finish this
+         Currently logged in as:
+         {{#if currentChar}}
+            {{currentChar}}
+         {{else}}
+            Not logged in
+         {{/if}}
          <button class="logout">logout</button>
       </div>
       <div id="char-info">
+      Your other characters:
          {{#each characters}}
             {{> CharInfo}}
+         {{else}}
+            You have none. Make another!
          {{/each}}
       </div>
-      {{> CharCreator}}
+      {{#if canMakeChar}}
+         {{> CharCreator}}
+      {{/if}}
    </div>
 {{else}}
 You aren't logged in!
@@ -20,6 +30,7 @@ You aren't logged in!
 
 <template name="CharCreator">
    <h2>Create a new character</h2>
+   <h6>You can make {{charsLeft}} more</h6>
    <form id="char-creator">
       <div>
          Name: <input type="text" class="char-name-input">
@@ -52,6 +63,5 @@ You aren't logged in!
       <a href="#char-chooser">{{name}}, level {{level}} {{class}}</a>
    </div>
    {{/each}}
-   <button>OK</button>
    </div>
 </template>

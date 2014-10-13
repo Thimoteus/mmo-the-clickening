@@ -5,6 +5,16 @@ users = Meteor.users
 settings = Meteor.settings
 print = share.print
 
+# custom functions
+##########
+
+charsLeft = ->
+
+      total = settings.totalCharCount ? 3
+      current = Characters.find({'owner': @userId}).count()
+
+      return total - current
+
 # Publications
 ##########
 
@@ -52,6 +62,8 @@ users.deny
 ##########
 
 Meteor.methods
+
+   "charsLeft": -> charsLeft()
    
    "addClicks": (amount) ->
       
@@ -72,15 +84,30 @@ Meteor.methods
       check(name, String)
       check(charClass, isActuallyAClass)
       print "Attempting to create a new #{charClass}"
-      Characters.insert
-         'owner': @userId
-         'class': charClass
-         'name': name
-         'level': 1
-         'hp': 20
-
-
+      # do we have enough room?
+      if charsLeft() > 0
+         Characters.insert
+            'owner': @userId
+            'class': charClass
+            'name': name
+            'level': 1
+            'hp': 20
+            'loggedIn': false
+      else
+         print "Sorry, you don't have enough room!"
       return
+
+   "loginChar": (id) ->
+
+      check(id, String)
+
+      Characters.update({_id: @userId, "loggedIn": true}, {$set: {"loggedIn": false}})
+      Characters.update(id, {$set: {"loggedIn": true}})
+
+   "logoutChar": ->
+
+      Characters.update(@userId, {$set: {"loggedIn": false}})
+
 
 # the Game
 ##########

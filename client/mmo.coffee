@@ -13,38 +13,59 @@ print = share.print
 ##########
 Meteor.subscribe("characters")
 
-# custom functions
+# custom functions, calls
 ##########
 
 allChars = -> Characters.find()
-currentChar = -> Characters.find(Session.get("currentChar"))
+currentChar = -> Characters.findOne({"loggedIn": true})
+charsLeft = ->
+   total = 3
+   current = Characters.find().count()
+   return total - current
 
 # UI stuff
 ########## &#9760;
 
 # Clicker helpers
-Template.Clicker.userHasChar = -> Characters.find().count() > 0
-Template.Clicker.currentChar = -> Session.get("currentChar")
+Template.Clicker.helpers
+
+   userHasChar: -> Characters.find().count() > 0
+   currentChar: -> currentChar()
 
 # Settings helpers
-Template.Settings.characters = -> allChars()
-Template.CharChooser.characters = -> allChars()
+Template.Settings.helpers
+
+   characters: -> Characters.find({"loggedIn": false})
+   currentChar: -> currentChar()?['name']
+   canMakeChar: -> charsLeft() > 0
+
+Template.CharChooser.helpers
+
+   characters: -> allChars()
+
+Template.CharCreator.helpers
+
+   charsLeft: -> charsLeft()
 
 # Sidebar helpers
-Template.Sidebar.char = -> Characters.findOne(Session.get("currentChar"))
-# Template.Sidebar.classIcon = -> 
+Template.Sidebar.helpers
+
+   char: -> currentChar()
+   # classIcon: ->
 
 # events
 Template.ClickerUI.events
 
    'click #clicker': (evt, cxt) ->
+
       Meteor.call("addClicks", 1)
       console.log "You clicked the button."
 
 Template.Settings.events
 
    'click .logout': (evt, cxt) ->
-      Session.set("currentChar", undefined)
+
+      Meteor.call("logoutChar")
 
 Template.CharCreator.events
    
@@ -73,6 +94,7 @@ Template.CharInfo.events
 Template.CharChooser.events
 
    'click a': (evt, cxt) ->
+
       evt.preventDefault()
       $(evt.target).css("fontWeight", "bold")
-      Session.set("currentChar", this._id)
+      Meteor.call("loginChar", this._id)
