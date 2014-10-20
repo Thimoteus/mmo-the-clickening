@@ -15,7 +15,7 @@ Meteor.subscribe("characters")
 
 # custom functions, calls
 ##########
-
+chat = (msg) -> $("#chat").append("<div>#{msg}</div>")
 allChars = -> Characters.find()
 currentChar = -> Characters.findOne({"loggedIn": true})
 charsLeft = ->
@@ -66,6 +66,7 @@ Template.Settings.events
    'click .logout': (evt, cxt) ->
 
       Meteor.call("logoutChar")
+      chat("You have successfully logged out.")
 
 Template.CharCreator.events
    
@@ -97,4 +98,5 @@ Template.CharChooser.events
 
       evt.preventDefault()
       $(evt.target).css("fontWeight", "bold")
-      Meteor.call("loginChar", this._id)
+      Meteor.call("loginChar", @_id)
+      chat("Logging in as #{@name}")
